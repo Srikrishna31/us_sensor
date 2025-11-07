@@ -50,7 +50,10 @@ def main():
         print(f"Obstacle {j} ({obstacle.id}) in EGO frame: {obstacle_in_ego}")
         for i, sensor in enumerate(ego_car.get_sensors()):
             sensor_point = sensor.transform_from_car_to_sensor_reference(obstacle_in_ego)
-            print(f"  Sensor {i} ({sensor.ID}) sees obstacle at: {sensor_point}")
+            if sensor.detect_obstacle(obstacle):
+                print(f"  Sensor {i} ({sensor.ID}) sees obstacle at: {sensor_point}")
+            else:
+                print(f"  Sensor {i} ({sensor.ID}) DOESN'T see obstacle at: {sensor_point}.")
             
             
 
