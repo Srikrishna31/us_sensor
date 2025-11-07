@@ -5,7 +5,10 @@ py_binary(
         #        "ultrasonic_sensor.py",
         "ultrasonic_sensor_objects.py",
     ],
-    data = ["TEST/10obstacles.txt"],
+    data = [
+        "TEST/10obstacles.txt",
+        "TEST/12sensors.txt",
+    ],
     main = "main.py",
     deps = ["@pip//numpy"],
 )
