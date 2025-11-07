@@ -52,8 +52,8 @@ def main():
             sensor_point = sensor.transform_from_car_to_sensor_reference(obstacle_in_ego)
             if sensor.detect_obstacle(obstacle):
                 print(f"  Sensor {i} ({sensor.ID}) sees obstacle at: {sensor_point}")
-            else:
-                print(f"  Sensor {i} ({sensor.ID}) DOESN'T see obstacle at: {sensor_point}.")
+            # else:
+            #     print(f"  Sensor {i} ({sensor.ID}) DOESN'T see obstacle at: {sensor_point}.")
             
             
 
