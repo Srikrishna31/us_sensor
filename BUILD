@@ -13,9 +13,9 @@ py_binary(
 py_test(
     name = "uss_test",
     srcs = ["test_ultrasonic_sensor.py"],
+    main = "test_ultrasonic_sensor.py",
     deps = [
         ":us_sensor",
-        #        "@pip//pytest",
-        "@pip__pytest//:pkg",
+        #        "@pip__pytest//:pkg",
     ],
 )

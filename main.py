@@ -7,7 +7,7 @@ def read_obstacles_from_file(file_path):
     with open(file_path, 'r') as file:
         for line in file:
             print(line)
-            data = tuple(map(int, filter(line.strip().split(','), lambda x: x != ' ')))
+            data = tuple(map(int, line.strip().split(',')))
             obstacles.append(Obstacle(*data))
     return obstacles
 
