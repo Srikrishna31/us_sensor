@@ -10,7 +10,7 @@ py_test(
     srcs = ["test_ultrasonic_sensor.py"],
     deps = [
         ":us_sensor",
-        "@pip//pytest",
-        #        "@pip__pytest//:pkg",
+        #        "@pip//pytest",
+        "@pip__pytest//:pkg",
     ],
 )
