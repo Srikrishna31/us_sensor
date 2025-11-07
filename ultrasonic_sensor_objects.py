@@ -2,6 +2,8 @@ import numpy as np
 from typing import List, Dict, Any
 from src.transformation import Transformation
 
+from math import pi as PI
+
 class Obstacle:
     # the obstacle coordinate will be given by an outside file and it is related to an extern reference system
     def __init__(self, position_x, position_y, position_z, width, height, depth, id:str):
@@ -57,7 +59,7 @@ class UltrasonicSensor:
         self.position_x = x
         self.position_y = y
         self.position_z = z
-        self.cone_angle_deg = cone_angle_deg
+        self.cone_angle_rad = cone_angle_deg * PI / 180
         
         self.h = h 
         self.p = p  
@@ -67,19 +69,21 @@ class UltrasonicSensor:
         self.transform = Transformation(np.array([x, y, z]), np.array([h, p, r]))
 
     def detect_obstacle(self: "UltrasonicSensor", obj: "Obstacle") -> bool:
+        print([self._detect_obstacle_point(pt) for pt in obj.get_bounds()])
         return any([self._detect_obstacle_point(pt) for pt in obj.get_bounds()])
 
     def _detect_obstacle_point(self:"UltrasonicSensor", point: np.ndarray) -> bool:
         v = point
-        axis = np.array([1.0, 1.0, 1.0])
+        axis = np.array([1.0, 0.0, 0.0])
         dot_product = np.dot(axis, v)
         dist = np.linalg.norm(v)
-        if dist < self.range_min or dist > self.range_max:
-            return False
+        print(dist)
+        # if dist < self.range_min or dist > self.range_max:
+        #     return False
 
         angle = np.arccos(dot_product / dist)
         is_negative = v / dist
-        return angle <= self.cone_angle_deg and self.range_min >= dist and dist <= self.range_max and not is_negative[0]
+        return angle <= self.cone_angle_rad and dist>= self.range_min and dist <= self.range_max and not is_negative[0]
 
     def ego_to_sensor(self, ego_coordinates):
         sensor_x = ego_coordinates[0] - self.position_x

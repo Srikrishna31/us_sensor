@@ -1,2 +1,2 @@
 Sensor, X in mm, Y in mm, Z in mm, roll in deg, pitch in deg, yaw in deg, fov, range min in mm, range max in mm
-Test, 2500, 0, 0, 0, 0, 0, 30, 500, 5000
+Test, 2500, 0, 0, 0, 0, 0, 30, 50, 500
