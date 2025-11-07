@@ -1,5 +1,5 @@
 
-from Objects import UltrasonicSensor, Obstacle, EGO, calculate_3d_distance
+from ultrasonic_sensor_objects import UltrasonicSensor, Obstacle, EGO, calculate_3d_distance
 
 
 def read_obstacles_from_file(file_path):
