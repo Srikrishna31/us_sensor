@@ -1,3 +1,5 @@
+import numpy as np
+
 def calculate_3d_distance(ego, obstacle):
     dx = ego.position_x - obstacle.position_x
     dy = ego.position_y - obstacle.position_y
@@ -30,7 +32,8 @@ class UltrasonicSensor:
         sensor_y = ego_coordinates[1] - self.position_y
         sensor_z = ego_coordinates[2] - self.position_z
         return (sensor_x**2 + sensor_y**2 + sensor_z**2) ** 0.5
-
+    def transform_from_car_to_sensor_reference(self, point_in_car_coords):
+       return 2
 
 class EGO:
     def __init__(self, position_x, position_y, position_z, h, p, r):
@@ -43,7 +46,10 @@ class EGO:
 
     def get_coordinates(self):
         return (self.position_x, self.position_y, self.position_z, self.h, self.p, self.r)
-
+    
+    def transform_from_outside_world_to_car_reference(self, obstacle: Obstacle):
+       # needs implementation
+       return 1
 
 class Obstacle:
     # the obstacle coordinate will be given by an outside file and it is related to an extern reference system
@@ -65,3 +71,31 @@ class Obstacle:
             ego.position_z - self.position_z
         )
 
+class UltrasonicSensor:
+    def __init__(self, id: str, x, y, z, h, p, r, range_min = 1, range_max = 4, cone_angle = 0):
+
+        self.range_min_cm = range_min
+        self.max_range_cm = range_max
+        self.position_x = x
+        self.position_y = y
+        self.position_z = z
+        
+        self.h = h 
+        self.p = p  
+        self.r = r 
+
+        self.ID = id
+
+    def detect_obstacle(self, distance_cm):
+        if self.range_min_cm <= distance_cm <= self.max_range_cm:
+            return True
+        else:
+            return False
+    
+    def ego_to_sensor(self, ego_coordinates):
+        sensor_x = ego_coordinates[0] - self.position_x
+        sensor_y = ego_coordinates[1] - self.position_y
+        sensor_z = ego_coordinates[2] - self.position_z
+        return (sensor_x**2 + sensor_y**2 + sensor_z**2) ** 0.5
+    def transform_from_car_to_sensor_reference(self, point_in_car_coords):
+       return 2
