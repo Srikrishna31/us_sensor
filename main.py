@@ -6,14 +6,16 @@ def read_obstacles_from_file(file_path):
     obstacles = []
     with open(file_path, 'r') as file:
         for line in file:
-            data = tuple(map(int, line.strip().split(',')))
+            print(line)
+            data = tuple(map(int, filter(line.strip().split(','), lambda x: x != ' ')))
             obstacles.append(Obstacle(*data))
     return obstacles
 
 def main():
-    sensors = [UltrasonicSensor() for _ in range(12)]
-
-    obstacles = read_obstacles_from_file(r'.\TEST\10obstacles.txt')
+    sensors = [UltrasonicSensor(0,0,0,0,0,0, "empty") for _ in range(12)]
+    import os
+    print(os.getcwd())
+    obstacles = read_obstacles_from_file(r'./TEST/10obstacles.txt')
     print(obstacles)
 
     # Create one EGO car

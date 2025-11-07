@@ -1,7 +1,12 @@
 py_binary(
     name = "us_sensor",
-    srcs = ["ultrasonic_sensor.py"],
-    main = "ultrasonic_sensor.py",
+    srcs = [
+        "main.py",
+        #        "ultrasonic_sensor.py",
+        "ultrasonic_sensor_objects.py",
+    ],
+    data = ["TEST/10obstacles.txt"],
+    main = "main.py",
     deps = ["@pip//numpy"],
 )
 

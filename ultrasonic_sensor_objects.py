@@ -5,10 +5,10 @@ def calculate_3d_distance(ego, obstacle):
     return (dx**2 + dy**2 + dz**2) ** 0.5
 
 class UltrasonicSensor:
-    def __init__(self, range_min_cm = 100, range_max_cm = 400, x, y, z, h, p, r, ID: str):
+    def __init__(self, x, y, z, h, p, r, ID: str, range_min = 1, range_max = 4):
 
-        self.range_min_cm = range_min_cm
-        self.max_range_cm = range_max_cm
+        self.range_min_cm = range_min
+        self.max_range_cm = range_max
         self.position_x = x
         self.position_y = y
         self.position_z = z
@@ -31,6 +31,20 @@ class UltrasonicSensor:
         sensor_z = ego_coordinates[2] - self.position_z
         return (sensor_x**2 + sensor_y**2 + sensor_z**2) ** 0.5
 
+
+class EGO:
+    def __init__(self, position_x, position_y, position_z, h, p, r):
+        self.position_x = position_x
+        self.position_y = position_y
+        self.position_z = position_z
+        self.h = h
+        self.p = p
+        self.r = r
+
+    def get_coordinates(self):
+        return (self.position_x, self.position_y, self.position_z, self.h, self.p, self.r)
+
+
 class Obstacle:
     # the obstacle coordinate will be given by an outside file and it is related to an extern reference system
     def __init__(self, position_x, position_y, position_z, width, height, depth):
@@ -51,15 +65,3 @@ class Obstacle:
             ego.position_z - self.position_z
         )
 
-class EGO:
-    def __init__(self, position_x, position_y, position_z, h, p, r):
-        self.position_x = position_x
-        self.position_y = position_y
-        self.position_z = position_z
-        self.h = h
-        self.p = p
-        self.r = r
-
-    def get_coordinates(self):
-        return (self.position_x, self.position_y, self.position_z, self.h, self.p, self.r)
-    
