@@ -4,10 +4,10 @@ import re
 import numpy as np
 from csv_reader import read_sensor_data_from_csv
 
-import debugpy
-debugpy.listen(("0.0.0.0", 5678))
-print("Waiting for debugger to attach...")
-debugpy.wait_for_client()
+# import debugpy
+# debugpy.listen(("0.0.0.0", 5678))
+# print("Waiting for debugger to attach...")
+# debugpy.wait_for_client()
 
 def read_obstacles_from_file(file_path):
     obstacles = []
@@ -43,26 +43,36 @@ def read_sensors_from_file(file_path):
 
 def main():
     sensor_info = read_sensor_data_from_csv()
-    print(sensor_info)
+    # print(sensor_info)
     obstacles = read_obstacles_from_file(r'./TEST/10obstacles.txt')
     print(f"Loaded {len(obstacles)} obstacles.")
 
-    ego_car = EGO(position_x=3.50, position_y=2.0, position_z=0.0, h=0, p=0, r=0, sensor_data=sensor_info) # # needs to be set properly
+    distances = {}
+    ego_car = EGO(position_x=0.0, position_y=0.0, position_z=0.0, h=0, p=0, r=0, sensor_data=sensor_info) # # needs to be set properly
     for j, obstacle in enumerate(obstacles):
         obstacle_in_ego = ego_car.transform_from_outside_world_to_car_reference(obstacle)
-        print(f"Obstacle {j} ({obstacle.id}) in EGO frame: {obstacle_in_ego}")
-        obj_distances = []
+        # print(f"Obstacle {j} ({obstacle.id}) in EGO frame: {obstacle_in_ego}")
         for i, sensor in enumerate(ego_car.get_sensors()):
+            obj_distances = []
+            # print(f"Sensor {i} ({sensor.ID})")
             sensor_point = sensor.transform_from_car_to_sensor_reference(obstacle_in_ego)
             # print(sensor_point)
-            if sensor.detect_obstacle(obstacle):
-                print(f"  Sensor {i} ({sensor.ID}) sees obstacle at: {sensor_point}")
-                obj_distances.append(np.linalg.norm(sensor_point))
+            res, min_d = sensor.detect_obstacle(sensor_point)
+            print(f"Res: {res}")
+            if res:
+                print(f"  Sensor {i} ({sensor.ID}) sees obstacle at: {min_d}")
+                # obj_distances.append(res[1][0])
             # else:
             #     print(f"  Sensor {i} ({sensor.ID}) DOESN'T see obstacle at: {sensor_point}.")
             if obj_distances:
-                print(f"  Sensor {i} ({sensor.ID}) sees obstacle at: {sensor_point} with distance: {min(obj_distances)}")
+                distances[sensor.ID] = min(obj_distances)
+                # print(f"  Sensor {i} ({sensor.ID}) sees obstacle at: {sensor_point} with distance: {min(obj_distances)}")
 
+
+        for d in distances:
+            print(f"{d}: {distances[d][0]}")
+
+        # print(f"{distances}")
             
 
 if __name__ == "__main__":

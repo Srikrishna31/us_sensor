@@ -68,22 +68,57 @@ class UltrasonicSensor:
         self.ID = id_
         self.transform = Transformation(np.array([x, y, z]), np.array([h, p, r]))
 
-    def detect_obstacle(self: "UltrasonicSensor", obj: "Obstacle") -> bool:
-        print([self._detect_obstacle_point(pt) for pt in obj.get_bounds()])
-        return any([self._detect_obstacle_point(pt) for pt in obj.get_bounds()])
+    def detect_obstacle(self: "UltrasonicSensor", pts) -> bool:
+        temp = [self._detect_obstacle_point(pt) for pt in pts]
+        # print(f"Min distance point: {min(temp)}")
+        # res = False
+        # for p in temp:
+        #     i
+        res = False
+        min_d = None
+        for d, r in temp:
+            if r:
+                res = True
+                if min_d is None:
+                    min_d = d
+                else:
+                    min_d = min(d, min_d)
+
+
+
+        return (res, min_d)
+
+    # def detect_obstacle(self: "UltrasonicSensor", obj: "Obstacle") -> bool:
+    #     print([self._detect_obstacle_point(pt) for pt in obj.get_bounds()])
+    #     return any([self._detect_obstacle_point(pt) for pt in obj.get_bounds()])
 
     def _detect_obstacle_point(self:"UltrasonicSensor", point: np.ndarray) -> bool:
         v = point
         axis = np.array([1.0, 0.0, 0.0])
         dot_product = np.dot(axis, v)
         dist = np.linalg.norm(v)
-        print(dist)
+        # print(dist)
         # if dist < self.range_min or dist > self.range_max:
         #     return False
 
+        # print(dist)
         angle = np.arccos(dot_product / dist)
         is_negative = v / dist
-        return angle <= self.cone_angle_rad and dist>= self.range_min and dist <= self.range_max and not is_negative[0]
+        return (dist, angle <= self.cone_angle_rad and dist>= self.range_min and dist <= self.range_max and is_negative[0] > 0)
+
+    def get_obstacle_point(self:"UltrasonicSensor", point: np.ndarray) -> bool:
+        v = point
+        axis = np.array([1.0, 0.0, 0.0])
+        dot_product = np.dot(axis, v)
+        dist = np.linalg.norm(v)
+        # print(dist)
+        # if dist < self.range_min or dist > self.range_max:
+        #     return False
+
+        # print(dist)
+        angle = np.arccos(dot_product / dist)
+        is_negative = v / dist
+        return dist
 
     def ego_to_sensor(self, ego_coordinates):
         sensor_x = ego_coordinates[0] - self.position_x
