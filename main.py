@@ -32,7 +32,7 @@ def read_sensors_from_file(file_path):
         nums = [float(n) for n in nums]
         if len(nums) >= 6:
             x,y,z,h,p,r = nums[:6]
-            sensors.append(UltrasonicSensor(x, y, z, h, p, r, ID=ID))
+            sensors.append(UltrasonicSensor(ID, x, y, z, h, p, r))
     return sensors
 
 def main():

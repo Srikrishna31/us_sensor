@@ -35,5 +35,5 @@ Rename-Item "env:USERPROFILE\bazelisk.exe" "env:USERPROFILE\bazel.exe"
 
 ## Run Test
 ```shell
-bazel run //test:test_transformation
+bazel run //uss_test
 ```

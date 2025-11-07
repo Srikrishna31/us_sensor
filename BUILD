@@ -2,7 +2,6 @@ py_binary(
     name = "us_sensor",
     srcs = [
         "main.py",
-        #        "ultrasonic_sensor.py",
         "ultrasonic_sensor_objects.py",
     ],
     data = [
@@ -10,7 +9,10 @@ py_binary(
         "TEST/12sensors.txt",
     ],
     main = "main.py",
-    deps = ["@pip//numpy"],
+    deps = [
+        "//src:transformation",
+        "@pip//numpy",
+    ],
 )
 
 py_test(
@@ -19,6 +21,5 @@ py_test(
     main = "test_ultrasonic_sensor.py",
     deps = [
         ":us_sensor",
-        #        "@pip__pytest//:pkg",
     ],
 )
