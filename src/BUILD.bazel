@@ -12,3 +12,17 @@ py_library(
     imports = ["."] ,
     visibility = ["//visibility:public"],
 )
+
+# bazel build "//src:csv_reader"
+py_library(
+    name = "csv_reader",
+    srcs = [
+        "__init__.py",
+        "csv_reader.py",
+    ],
+    deps = [
+    ],
+    imports = ["."] ,
+    data = ["//data:data"],
+    visibility = ["//visibility:public"],
+)
