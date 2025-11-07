@@ -42,10 +42,10 @@ def main():
     obstacles = read_obstacles_from_file(r'./TEST/10obstacles.txt')
     print(f"Loaded {len(obstacles)} obstacles.")
 
-    ego_car = EGO(position_x=0, position_y=0, position_z=0, h=0, p=0, r=0, sensor_data=sensor_info) # # needs to be set properly
+    ego_car = EGO(position_x=3.50, position_y=2.0, position_z=0.0, h=0, p=0, r=0, sensor_data=sensor_info) # # needs to be set properly
     for j, obstacle in enumerate(obstacles):
         obstacle_in_ego = ego_car.transform_from_outside_world_to_car_reference(obstacle)
-        print(f"Obstacle {j} ({obstacle.id}) in EGO frame: {obstacle_in_ego}")
+        # print(f"Obstacle {j} ({obstacle.id}) in EGO frame: {obstacle_in_ego}")
         obj_distances = []
         for i, sensor in enumerate(ego_car.get_sensors()):
             sensor_point = sensor.transform_from_car_to_sensor_reference(obstacle_in_ego)
