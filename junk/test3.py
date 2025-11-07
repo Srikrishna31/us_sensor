@@ -16,12 +16,12 @@ transformer = Transformation([1.828963, -138.407091, -0.006], [1.571584, -0.0042
 # T = create_transformation_matrix(ego_translation, angles)
 
 # print("Homogeneous Transformation Matrix:")
-print(transformer.T)
-print(transformer.T_inv)
+# print(transformer.T)
+# print(transformer.T_inv)
 
 # Another object's coordinates in ego frame (as homogeneous vector)
 # object_coords = np.array([3, 4, 1, 1])  # [x, y, z, 1]
-object_coords = np.array([4.985880, 112.518, 0.0, 1])
+object_coords = np.array([4.985880, 112.518, 0.0])
 # object_coords = [4.985880, 112.518, 0.0, 1]
 
 # Transform to world frame

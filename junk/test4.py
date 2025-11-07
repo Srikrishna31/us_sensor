@@ -8,6 +8,7 @@ euler_angles = np.array([1.571584, -0.004266, -0.000046])  # yaw, pitch, roll
 # Create rotation matrix using scipy
 rotation = R.from_euler('zyx', euler_angles, degrees=False)
 rot_matrix = rotation.as_matrix()
+print(rot_matrix)
 
 # Build 4x4 homogeneous transformation matrix
 T = np.eye(4)
