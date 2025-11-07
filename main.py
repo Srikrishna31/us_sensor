@@ -7,19 +7,21 @@ def read_obstacles_from_file(file_path):
     with open(file_path, 'r') as file:
         for line in file:
             print(line)
-            data = tuple(map(int, line.strip().split(',')))
+            data = tuple(map(int, [v for v in line.strip().split(',') if v != '']))
+            print(data)
+            print(type(data))
             obstacles.append(Obstacle(*data))
     return obstacles
 
 def main():
-    sensors = [UltrasonicSensor(0,0,0,0,0,0, "empty") for _ in range(12)]
+    sensors = [UltrasonicSensor("empty", 0,0,0,0,0,0, ) for _ in range(12)]
     import os
     print(os.getcwd())
     obstacles = read_obstacles_from_file(r'./TEST/10obstacles.txt')
     print(obstacles)
 
     # Create one EGO car
-    ego_car = EGO(position_x=0, position_y=0, position_z=0)
+    ego_car = EGO(position_x=0, position_y=0, position_z=0, h = 0, p = 0, r = 0)
 
     for i, sensor in enumerate(sensors):
         for j, obstacle in enumerate(obstacles):
