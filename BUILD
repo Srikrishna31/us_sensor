@@ -10,6 +10,7 @@ py_binary(
     ],
     main = "main.py",
     deps = [
+        "//src:csv_reader",
         "//src:transformation",
         "@pip//numpy",
     ],

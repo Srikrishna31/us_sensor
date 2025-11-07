@@ -2,6 +2,7 @@
 from ultrasonic_sensor_objects import UltrasonicSensor, Obstacle, EGO
 import re
 import numpy as np
+from csv_reader import read_sensor_data_from_csv
 
 def read_obstacles_from_file(file_path):
     obstacles = []
@@ -36,16 +37,18 @@ def read_sensors_from_file(file_path):
     return sensors
 
 def main():
-    sensors = read_sensors_from_file(r'./TEST/12sensors.txt')
-    print(f"Loaded {len(sensors)} sensors.")
+    sensor_info = read_sensor_data_from_csv()
+    print(sensor_info)
+    # sensors = read_sensors_from_file(r'./TEST/12sensors.txt')
+    # print(f"Loaded {len(sensors)} sensors.")
     obstacles = read_obstacles_from_file(r'./TEST/10obstacles.txt')
     print(f"Loaded {len(obstacles)} obstacles.")
 
-    ego_car = EGO(position_x=0, position_y=0, position_z=0, h=0, p=0, r=0) # # needs to be set properly
+    ego_car = EGO(position_x=0, position_y=0, position_z=0, h=0, p=0, r=0, sensor_data=sensor_info) # # needs to be set properly
     for j, obstacle in enumerate(obstacles):
         obstacle_in_ego = ego_car.transform_from_outside_world_to_car_reference(obstacle)
         print(f"Obstacle {j} ({obstacle.id}) in EGO frame: {obstacle_in_ego}")
-        for i, sensor in enumerate(sensors):
+        for i, sensor in enumerate(ego_car.get_sensors()):
             sensor_point = sensor.transform_from_car_to_sensor_reference(obstacle_in_ego)
             print(f"  Sensor {i} ({sensor.ID}) sees obstacle at: {sensor_point}")
             

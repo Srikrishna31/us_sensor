@@ -9,14 +9,14 @@ def calculate_3d_distance(ego, obstacle):
     return (dx**2 + dy**2 + dz**2) ** 0.5
 
 class UltrasonicSensor:
-    def __init__(self, id_: str, x, y, z, h, p, r, range_min = 1, range_max = 4, cone_angle = 0):
+    def __init__(self, id_: str, x, y, z, h, p, r, range_min = 1, range_max = 4, cone_angle_deg = 0.0):
 
         self.range_min = range_min
         self.range_max = range_max
         self.position_x = x
         self.position_y = y
         self.position_z = z
-        self.cone_angle = cone_angle
+        self.cone_angle_deg = cone_angle_deg
         
         self.h = h 
         self.p = p  
@@ -54,13 +54,18 @@ class EGO:
         self.r = r
         self.transform = Transformation(np.array([position_x, position_y, position_z]), np.array([h, p, r]))
         self.sensors = []
-        for name, sensor in sensor_data:
-            self.sensors.append(UltrasonicSensor(name, sensor["x"], sensor["y"], sensor["z"], sensor["h"], sensor["p"], sensor["r"]))
+        for name, sensor in sensor_data.items():
+            self.sensors.append(UltrasonicSensor(id_=name, x=sensor["X_m"], y=sensor["Y_m"], z=sensor["Z_m"], h=sensor["yaw_rad"], p=sensor["pitch_rad"], r=sensor["roll_rad"],
+                                                 range_max=sensor["range_max_m"], range_min=sensor["range_min_m"], cone_angle_deg=sensor["fov_deg"]))
     def get_coordinates(self):
         return self.position_x, self.position_y, self.position_z, self.h, self.p, self.r
 
     def transform_from_outside_world_to_car_reference(self, obstacle):
         return 2
+
+    def get_sensors(self):
+        return self.sensors
+
 class Obstacle:
     # the obstacle coordinate will be given by an outside file and it is related to an extern reference system
     def __init__(self, position_x, position_y, position_z, width, height, depth, id:str):
