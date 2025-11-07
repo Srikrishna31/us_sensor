@@ -8,5 +8,9 @@ py_binary (
         # "@pip//pytest",
         "@pip//numpy",
         "@pip//scipy",
+        "//src:csv_reader",
+    ],
+    data = [
+        # "sensors.csv",
     ],
 )

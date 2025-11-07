@@ -14,6 +14,9 @@ def read_sensor_data_from_csv(file_path = "data/sensors.csv"):
                 'Z_m': float(normalized_row['Z in mm']) / 1000,
                 'roll_rad': math.radians(float(normalized_row['roll in deg'])),
                 'pitch_rad': math.radians(float(normalized_row['pitch in deg'])),
-                'yaw_rad': math.radians(float(normalized_row['yaw in deg']))
+                'yaw_rad': math.radians(float(normalized_row['yaw in deg'])),
+                'fov_deg': float(normalized_row['fov']),
+                'range_min_m' : float(normalized_row['range min in mm']) / 1000,
+                'range_max_m' : float(normalized_row['range max in mm']) / 1000,
             }
     return sensor_dict
