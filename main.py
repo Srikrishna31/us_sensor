@@ -1,6 +1,6 @@
 
 from ultrasonic_sensor_objects import UltrasonicSensor, Obstacle, EGO, calculate_3d_distance
-
+from numpy import pi as PI
 
 def read_obstacles_from_file(file_path):
     obstacles = []
@@ -14,9 +14,7 @@ def read_obstacles_from_file(file_path):
     return obstacles
 
 def main():
-    sensors = [UltrasonicSensor("empty", 0,0,0,0,0,0, ) for _ in range(12)]
-    import os
-    print(os.getcwd())
+    sensors = [UltrasonicSensor("empty", 0,0,0,0,0,0, PI/4) for _ in range(12)]
     obstacles = read_obstacles_from_file(r'./TEST/10obstacles.txt')
     print(obstacles)
 
