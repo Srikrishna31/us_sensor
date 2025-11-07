@@ -4,6 +4,11 @@ import re
 import numpy as np
 from csv_reader import read_sensor_data_from_csv
 
+import debugpy
+debugpy.listen(("0.0.0.0", 5678))
+print("Waiting for debugger to attach...")
+debugpy.wait_for_client()
+
 def read_obstacles_from_file(file_path):
     obstacles = []
     with open(file_path, 'r') as file:

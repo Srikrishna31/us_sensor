@@ -13,6 +13,7 @@ py_binary(
         "//src:csv_reader",
         "//src:transformation",
         "@pip//numpy",
+        "@pip//debugpy",
     ],
 )
 
