@@ -25,14 +25,16 @@ class UltrasonicSensor:
         self.ID = id_
         self.transform = Transformation(np.array([x, y, z]), np.array([h, p, r]))
 
-    def detect_obstacle(self:"UltrasonicSensor", point: np.ndarray) -> bool:
+    def detect_obstacle(self: "UltrasonicSensor", obj: "Obstacle") -> bool:
+        return any([self._detect_obstacle_point(pt) for pt in obj.get_bounds()])
+    def _detect_obstacle_point(self:"UltrasonicSensor", point: np.ndarray) -> bool:
         v = point
         axis = np.array([1.0, 1.0, 1.0])
         dot_product = np.dot(axis, v)
         dist = np.linalg.norm(v)
         angle = np.arccos(dot_product / dist)
         is_negative = v / dist
-        return angle <= self.cone_angle and self.range_min >= dist and dist <= self.range_max and not is_negative[0]
+        return angle <= self.cone_angle_deg and self.range_min >= dist and dist <= self.range_max and not is_negative[0]
 
     def ego_to_sensor(self, ego_coordinates):
         sensor_x = ego_coordinates[0] - self.position_x
