@@ -1,0 +1,14 @@
+# bazel build "//src:transformation"
+py_library(
+    name = "transformation",
+    srcs = [
+        "__init__.py",
+        "transformation.py",
+    ],
+    deps = [
+        "@pip//numpy",
+        "@pip//scipy",
+    ],
+    imports = ["."] ,
+    visibility = ["//visibility:public"],
+)
