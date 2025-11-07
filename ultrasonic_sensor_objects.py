@@ -2,12 +2,6 @@ import numpy as np
 from typing import List, Dict, Any
 from src.transformation import Transformation
 
-def calculate_3d_distance(ego, obstacle):
-    dx = ego.position_x - obstacle.position_x
-    dy = ego.position_y - obstacle.position_y
-    dz = ego.position_z - obstacle.position_z
-    return (dx**2 + dy**2 + dz**2) ** 0.5
-
 class Obstacle:
     # the obstacle coordinate will be given by an outside file and it is related to an extern reference system
     def __init__(self, position_x, position_y, position_z, width, height, depth, id:str):
@@ -80,6 +74,9 @@ class UltrasonicSensor:
         axis = np.array([1.0, 1.0, 1.0])
         dot_product = np.dot(axis, v)
         dist = np.linalg.norm(v)
+        if dist < self.range_min or dist > self.range_max:
+            return False
+
         angle = np.arccos(dot_product / dist)
         is_negative = v / dist
         return angle <= self.cone_angle_deg and self.range_min >= dist and dist <= self.range_max and not is_negative[0]

@@ -39,8 +39,6 @@ def read_sensors_from_file(file_path):
 def main():
     sensor_info = read_sensor_data_from_csv()
     print(sensor_info)
-    # sensors = read_sensors_from_file(r'./TEST/12sensors.txt')
-    # print(f"Loaded {len(sensors)} sensors.")
     obstacles = read_obstacles_from_file(r'./TEST/10obstacles.txt')
     print(f"Loaded {len(obstacles)} obstacles.")
 
@@ -48,13 +46,17 @@ def main():
     for j, obstacle in enumerate(obstacles):
         obstacle_in_ego = ego_car.transform_from_outside_world_to_car_reference(obstacle)
         print(f"Obstacle {j} ({obstacle.id}) in EGO frame: {obstacle_in_ego}")
+        obj_distances = []
         for i, sensor in enumerate(ego_car.get_sensors()):
             sensor_point = sensor.transform_from_car_to_sensor_reference(obstacle_in_ego)
             if sensor.detect_obstacle(obstacle):
                 print(f"  Sensor {i} ({sensor.ID}) sees obstacle at: {sensor_point}")
+                obj_distances.append(np.linalg.norm(sensor_point))
             # else:
             #     print(f"  Sensor {i} ({sensor.ID}) DOESN'T see obstacle at: {sensor_point}.")
-            
+            if obj_distances:
+                print(f"  Sensor {i} ({sensor.ID}) sees obstacle at: {sensor_point} with distance: {min(obj_distances)}")
+
             
 
 if __name__ == "__main__":
