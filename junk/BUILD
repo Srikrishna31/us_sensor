@@ -5,8 +5,8 @@ py_binary (
     main = "test.py",
     deps = [
         "//src:transformation",
-        # "@pip//:pytest",
-        # "@pip//numpy",
-        # "@pip//scipy",
+        # "@pip//pytest",
+        "@pip//numpy",
+        "@pip//scipy",
     ],
 )
