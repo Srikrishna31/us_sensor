@@ -5,14 +5,19 @@ def calculate_3d_distance(ego, obstacle):
     return (dx**2 + dy**2 + dz**2) ** 0.5
 
 class UltrasonicSensor:
-    def __init__(self, range_min_cm = 100, range_max_cm = 400, h, p, r):
+    def __init__(self, range_min_cm = 100, range_max_cm = 400, x, y, z, h, p, r, ID: str):
 
         self.range_min_cm = range_min_cm
         self.max_range_cm = range_max_cm
+        self.position_x = x
+        self.position_y = y
+        self.position_z = z
         
         self.h = h 
         self.p = p  
         self.r = r 
+
+        self.ID = ID
 
     def detect_obstacle(self, distance_cm):
         if self.range_min_cm <= distance_cm <= self.max_range_cm:
